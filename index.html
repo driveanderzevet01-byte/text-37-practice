@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading practice · Advertising &amp; Children</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f5f7fc;
+      color: #1e2a3e;
+      padding: 1.5rem 1rem 3rem;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 15px 35px rgba(0, 20, 50, 0.08);
+      padding: 2rem 2rem 2.5rem;
+      transition: all 0.2s;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2rem;
+      color: #0b2b4a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h1 small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #59748f;
+      margin-left: 8px;
+    }
+    .subhead {
+      color: #4c617b;
+      margin-bottom: 2rem;
+      border-left: 4px solid #adc6e0;
+      padding-left: 1rem;
+      font-style: italic;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 1.8rem 1.8rem 1.8rem;
+      box-shadow: 0 4px 14px rgba(0, 20, 40, 0.04);
+      border: 1px solid #e4ecf5;
+    }
+    .start-screen, .test-screen, .result-screen {
+      display: block;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #153e5c;
+      margin-bottom: 0.4rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: 1px solid #cddae8;
+      border-radius: 60px;
+      font-size: 1rem;
+      background: #fafcff;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #2d7ab0;
+      box-shadow: 0 0 0 4px rgba(45, 122, 176, 0.12);
+      background: #ffffff;
+    }
+    .btn {
+      background: #1f6390;
+      color: white;
+      border: none;
+      padding: 0.9rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 6px 14px rgba(24, 80, 120, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:hover {
+      background: #0e4b72;
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .btn-secondary {
+      background: #eaf1fa;
+      color: #1a4a6f;
+      box-shadow: none;
+      border: 1px solid #b8cde0;
+    }
+    .btn-secondary:hover {
+      background: #dae6f2;
+    }
+    .btn-large {
+      font-size: 1.1rem;
+      padding: 1rem 2.8rem;
+    }
+    .passage-box {
+      background: #f8fbfe;
+      border-radius: 20px;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid #d9e5f0;
+      margin-bottom: 2.2rem;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: #1b2c3f;
+      max-height: 380px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .passage-box p {
+      margin-bottom: 1rem;
+    }
+    .passage-box p:last-child {
+      margin-bottom: 0;
+    }
+    .question-item {
+      background: white;
+      border-radius: 18px;
+      padding: 1.2rem 1.3rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2ebf5;
+      transition: 0.1s;
+    }
+    .question-item:hover {
+      border-color: #b8d0e5;
+    }
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 0.9rem;
+      font-size: 1rem;
+      color: #0b2b4a;
+      display: flex;
+      gap: 8px;
+    }
+    .q-num {
+      background: #e1effa;
+      border-radius: 40px;
+      padding: 0 0.7rem;
+      font-size: 0.9rem;
+      color: #1a5b86;
+      font-weight: 600;
+      display: inline-block;
+      line-height: 1.6;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.97rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 12px;
+      transition: background 0.1s;
+    }
+    .option:hover {
+      background: #f1f7fd;
+    }
+    .option input[type="radio"] {
+      margin-top: 0.2rem;
+      accent-color: #1f6390;
+      width: 1.1rem;
+      height: 1.1rem;
+      flex-shrink: 0;
+    }
+    .option label {
+      font-weight: 400;
+      margin-bottom: 0;
+      color: #1e3349;
+      cursor: pointer;
+    }
+    .submit-area {
+      margin-top: 2.3rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .score-badge {
+      background: #1f6390;
+      color: white;
+      padding: 0.5rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .info-header {
+      background: #e9f2fb;
+      border-radius: 20px;
+      padding: 1.2rem 1.6rem;
+      margin-bottom: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem 2.5rem;
+      align-items: center;
+      border: 1px solid #cdddec;
+    }
+    .info-item {
+      font-size: 1.05rem;
+    }
+    .info-item strong {
+      color: #12446b;
+      margin-right: 5px;
+    }
+    .score-big {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0c4a6e;
+      background: #cde3f5;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      display: inline-block;
+      line-height: 1.4;
+    }
+    .review-item {
+      border-top: 1px solid #e0ebf5;
+      padding: 1.2rem 0;
+    }
+    .review-item:first-child {
+      border-top: none;
+    }
+    .user-answer {
+      display: inline-block;
+      background: #f3f7fc;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      margin-left: 10px;
+    }
+    .correct-answer {
+      color: #1f6c3b;
+      font-weight: 600;
+      background: #e1f5e8;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.95rem;
+    }
+    .wrong-answer {
+      color: #a13b3b;
+      background: #ffe7e7;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.95rem;
+    }
+    .review-option {
+      font-size: 0.95rem;
+      margin-left: 0.6rem;
+    }
+    .footer-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #7a8fa6;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 1.4rem; }
+      h1 { font-size: 1.5rem; }
+      .passage-box { padding: 1rem; }
+      .info-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="appContainer">
+  <!-- START SCREEN -->
+  <div id="startScreen" class="start-screen">
+    <h1>📘 Reading practice <small>· Advertising &amp; Children</small></h1>
+    <div class="subhead">Enter your details to begin the 20-question test.</div>
+    <div class="card">
+      <div class="form-group">
+        <label for="studentName">Full name</label>
+        <input type="text" id="studentName" placeholder="e.g., Ana Martínez" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="studyProgram">Study program</label>
+        <input type="text" id="studyProgram" placeholder="e.g., Psychology, Marketing, etc." autocomplete="off">
+      </div>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-large" id="nextBtn">Next →</button>
+      </div>
+    </div>
+    <div class="footer-note">You'll see the reading passage and all questions on the next page.</div>
+  </div>
+
+  <!-- TEST SCREEN -->
+  <div id="testScreen" class="test-screen hidden">
+    <h1 style="margin-bottom: 0.25rem;">Advertising &amp; Children <small>· reading practice</small></h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+      <div class="subhead" style="margin-bottom:0; border-left: none; padding-left:0;" id="studentGreeting"></div>
+      <span style="background:#e3effa; padding:0.25rem 1rem; border-radius:40px; font-size:0.9rem;">20 questions</span>
+    </div>
+    
+    <!-- PASSAGE -->
+    <div class="passage-box">
+      <p><strong>Advertising around the world is designed to appeal to consumers and induce them to purchase products and services.</strong> While adults are not always deceived by powerfully convincing messages in advertisements, children are easily misled. A 1991 study conducted by psychologists Kunkel and Roberts documented evidence that proves children lack the cognitive capacity to understand the persuasive intent of product promotion. Their work shows that advertisers exploit the appeal that cartoon characters and celebrities have for children, who often fail to discriminate between truths and falsehoods.</p>
+      <p>Advertisers are aware that children under six years of age cannot distinguish between reality and fantasy. A commercial for a brand of canned spinach might portray the cartoon character Popeye. Children know that, in the cartoon, Popeye becomes physically stronger after he eats spinach. They associate what they see in the cartoon with the advertising message in the commercial. Adults are aware that this is deceptive; children, however, will readily accept the message as truth. This is supported by a study conducted by the American Psychiatric Association (APA) on advertising and children, which concluded that the inability to perceive exaggeration makes children more susceptible to psychological pressure from advertising content.</p>
+      <p>The APA study also observed that compelling advertising can nurture a shift in values toward materialism. Advertisers encourage a preoccupation for material things by using children's favorite celebrities and cartoon characters in their advertisements. For example, the creators of Teenage Mutant Ninja Turtles have licensed hundreds of products, such as backpacks, lunch boxes, cereals, and toothbrushes. In 1989, sales of their products reached sixty-four billion dollars.</p>
+    </div>
+
+    <!-- QUESTIONS CONTAINER -->
+    <div id="questionsContainer"></div>
+
+    <div class="submit-area">
+      <button class="btn btn-large" id="submitBtn">Submit test ✓</button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="resultScreen" class="result-screen hidden">
+    <h1>📊 Test results</h1>
+    <div class="info-header" id="resultInfoHeader">
+      <!-- filled by JS -->
+    </div>
+
+    <div style="margin: 1.5rem 0 2rem;">
+      <div class="score-big" id="scoreDisplay"></div>
+      <span style="margin-left: 1rem; color: #3e5e7a;" id="scoreFraction"></span>
+    </div>
+
+    <h2 style="font-size: 1.4rem; margin-bottom: 1rem; color: #0b2b4a;">Review your answers</h2>
+    <div id="reviewContainer"></div>
+
+    <div style="display: flex; justify-content: center; margin-top: 2.5rem;">
+      <button class="btn btn-secondary" id="restartBtn">↻ Take again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- ANSWER KEY ----------
+  const answerKey = {
+    1: 'c', 2: 'd', 3: 'b', 4: 'a', 5: 'c',
+    6: 'b', 7: 'a', 8: 'b', 9: 'a', 10: 'b',
+    11: 'c', 12: 'a', 13: 'a', 14: 'c', 15: 'a',
+    16: 'b', 17: 'c', 18: 'a', 19: 'b', 20: 'c'
+  };
+
+  // ---------- QUESTION DATA (with options) ----------
+  const questions = [
+    { q: "1. According to the passage, why are children more vulnerable to ads?", opts: { a: "They watch more television", b: "They lack buying power", c: "They lack cognitive capacity", d: "They prefer cartoons" } },
+    { q: "2. What did Kunkel and Roberts' study find?", opts: { a: "Children enjoy advertisements", b: "Children can identify lies", c: "Children understand marketing", d: "Children struggle to detect persuasion" } },
+    { q: "3. What are advertisers aware of regarding children under six?", opts: { a: "They dislike cartoons", b: "They confuse reality and fantasy", c: "They avoid commercials", d: "They understand exaggeration" } },
+    { q: "4. Why might a Popeye spinach commercial influence children?", opts: { a: "They trust cartoon messages", b: "They eat more vegetables", c: "They dislike fantasy stories", d: "They recognize advertising tricks" } },
+    { q: "5. According to the APA study, what makes children more susceptible to ads?", opts: { a: "Limited income", b: "Peer pressure", c: "Inability to perceive exaggeration", d: "Lack of television access" } },
+    { q: "6. What value shift can advertising encourage in children?", opts: { a: "Independence", b: "Materialism", c: "Creativity", d: "Discipline" } },
+    { q: "7. The word \"induce\" is closest in meaning to:", opts: { a: "persuade", b: "prevent", c: "observe", d: "reward" } },
+    { q: "8. The word \"exploit\" is closest in meaning to:", opts: { a: "avoid", b: "misuse", c: "improve", d: "create" } },
+    { q: "9. The word \"deceptive\" is closest in meaning to:", opts: { a: "misleading", b: "entertaining", c: "expensive", d: "educational" } },
+    { q: "10. The word \"susceptible\" is closest in meaning to:", opts: { a: "resistant", b: "exposed", c: "similar", d: "attractive" } },
+    { q: "11. The word \"preoccupation\" is closest in meaning to:", opts: { a: "dislike", b: "concern", c: "obsession", d: "habit" } },
+    { q: "12. The word \"licensed\" is closest in meaning to:", opts: { a: "sold rights to", b: "copied", c: "advertised", d: "invented" } },
+    { q: "13. Which statement best summarizes the main concern discussed in the passage?", opts: { a: "Children are easily influenced by advertising techniques they may not understand.", b: "Adults are the main targets of cartoon advertisements.", c: "Advertising mainly encourages children to watch television.", d: "Children prefer products that are inexpensive." } },
+    { q: "14. Besides cartoon characters, what other figures do advertisers use to attract children?", opts: { a: "Teachers", b: "Athletes only", c: "Celebrities", d: "Parents" } },
+    { q: "15. What does the Teenage Mutant Ninja Turtles example demonstrate?", opts: { a: "Cartoon characters can promote many types of consumer products.", b: "Children prefer buying educational materials.", c: "Advertisers rarely use fictional characters.", d: "Most children's products are sold in supermarkets." } },
+    { q: "16. What does the variety of licensed products, such as backpacks and toothbrushes, suggest?", opts: { a: "The characters were used only for entertainment.", b: "The characters became part of children's everyday consumer choices.", c: "The products were designed exclusively for adults.", d: "The products were difficult for children to recognize." } },
+    { q: "17. What can be inferred from the reported sales of Teenage Mutant Ninja Turtles products in 1989?", opts: { a: "The products were not widely available.", b: "The advertising campaign had little influence.", c: "The licensed products generated substantial sales.", d: "The creators stopped producing merchandise." } },
+    { q: "18. The word \"discriminate\" is closest in meaning to:", opts: { a: "distinguish", b: "combine", c: "memorize", d: "repeat" } },
+    { q: "19. The word \"compelling\" is closest in meaning to:", opts: { a: "confusing", b: "convincing", c: "ordinary", d: "unnecessary" } },
+    { q: "20. The word \"nurture\" is closest in meaning to:", opts: { a: "prevent", b: "ignore", c: "develop", d: "replace" } }
+  ];
+
+  // ---------- STATE ----------
+  let userAnswers = {};
+  let studentName = '';
+  let studyProgram = '';
+  let testStartTime = null;
+  let testEndTime = null;
+
+  // DOM elements
+  const startScreen = document.getElementById('startScreen');
+  const testScreen = document.getElementById('testScreen');
+  const resultScreen = document.getElementById('resultScreen');
+  const studentNameInput = document.getElementById('studentName');
+  const studyProgramInput = document.getElementById('studyProgram');
+  const nextBtn = document.getElementById('nextBtn');
+  const questionsContainer = document.getElementById('questionsContainer');
+  const submitBtn = document.getElementById('submitBtn');
+  const studentGreeting = document.getElementById('studentGreeting');
+  const resultInfoHeader = document.getElementById('resultInfoHeader');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const scoreFraction = document.getElementById('scoreFraction');
+  const reviewContainer = document.getElementById('reviewContainer');
+  const restartBtn = document.getElementById('restartBtn');
+
+  // ---------- RENDER QUESTIONS ----------
+  function renderQuestions() {
+    let html = '';
+    questions.forEach((item, index) => {
+      const qNum = index + 1;
+      html += `<div class="question-item" data-qnum="${qNum}">`;
+      html += `<div class="question-text"><span class="q-num">${qNum}</span> ${item.q.replace(/^\d+\.\s*/, '')}</div>`;
+      html += `<div class="options">`;
+      for (const [key, val] of Object.entries(item.opts)) {
+        const checked = (userAnswers[qNum] === key) ? 'checked' : '';
+        html += `<div class="option">
+          <input type="radio" name="q${qNum}" value="${key}" id="q${qNum}_${key}" ${checked}>
+          <label for="q${qNum}_${key}">${key.toUpperCase()}. ${val}</label>
+        </div>`;
+      }
+      html += `</div></div>`;
+    });
+    questionsContainer.innerHTML = html;
+
+    document.querySelectorAll('#questionsContainer input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const name = e.target.name;
+        const qNum = parseInt(name.substring(1));
+        userAnswers[qNum] = e.target.value;
+      });
+    });
+  }
+
+  // ---------- RESET ANSWERS ----------
+  function resetAnswers() {
+    userAnswers = {};
+    document.querySelectorAll('#questionsContainer input[type="radio"]').forEach(r => r.checked = false);
+  }
+
+  // ---------- START TEST ----------
+  function startTest() {
+    studentName = studentNameInput.value.trim();
+    studyProgram = studyProgramInput.value.trim();
+
+    if (!studentName || !studyProgram) {
+      alert('Please enter both your name and study program.');
+      return;
+    }
+
+    startScreen.classList.add('hidden');
+    testScreen.classList.remove('hidden');
+    resultScreen.classList.add('hidden');
+
+    userAnswers = {};
+    testStartTime = new Date();
+    testEndTime = null;
+
+    studentGreeting.textContent = `👤 ${studentName} · ${studyProgram}`;
+
+    renderQuestions();
+  }
+
+  // ---------- SUBMIT TEST ----------
+  function submitTest() {
+    const totalQuestions = questions.length;
+    const answeredCount = Object.keys(userAnswers).length;
+    if (answeredCount < totalQuestions) {
+      const confirm = window.confirm(`You have answered ${answeredCount} out of ${totalQuestions} questions. Unanswered questions will be marked wrong. Submit anyway?`);
+      if (!confirm) return;
+    }
+
+    testEndTime = new Date();
+    const timeTakenMs = testEndTime - testStartTime;
+    const timeTakenSec = Math.floor(timeTakenMs / 1000);
+    const minutes = Math.floor(timeTakenSec / 60);
+    const seconds = timeTakenSec % 60;
+
+    let score = 0;
+    for (let q = 1; q <= totalQuestions; q++) {
+      const correct = answerKey[q];
+      const given = userAnswers[q] || null;
+      if (given === correct) score++;
+    }
+
+    testScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+
+    const formattedDate = testEndTime.toLocaleString('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    resultInfoHeader.innerHTML = `
+      <div class="info-item"><strong>Name:</strong> ${studentName}</div>
+      <div class="info-item"><strong>Study program:</strong> ${studyProgram}</div>
+      <div class="info-item"><strong>Time taken:</strong> ${minutes}m ${seconds}s</div>
+      <div class="info-item"><strong>Submitted:</strong> ${formattedDate}</div>
+    `;
+
+    scoreDisplay.textContent = `${score} / ${totalQuestions}`;
+    scoreFraction.textContent = `${Math.round((score / totalQuestions) * 100)}%`;
+
+    let reviewHtml = '';
+    for (let q = 1; q <= totalQuestions; q++) {
+      const qData = questions[q - 1];
+      const userAns = userAnswers[q] || '—';
+      const correctAns = answerKey[q];
+      const isCorrect = (userAns === correctAns);
+      const userAnsText = userAns !== '—' ? `${userAns.toUpperCase()}. ${qData.opts[userAns] || '?'}` : '(not answered)';
+      const correctAnsText = `${correctAns.toUpperCase()}. ${qData.opts[correctAns] || '?'}`;
+
+      reviewHtml += `<div class="review-item">`;
+      reviewHtml += `<div style="font-weight:600; margin-bottom:6px;">${qData.q}</div>`;
+      reviewHtml += `<div style="display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;">`;
+      reviewHtml += `<span>Your answer: <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">${userAnsText}</span></span>`;
+      if (!isCorrect) {
+        reviewHtml += `<span>Correct answer: <span class="correct-answer">${correctAnsText}</span></span>`;
+      } else {
+        reviewHtml += `<span class="correct-answer">✓ Correct</span>`;
+      }
+      reviewHtml += `</div></div>`;
+    }
+    reviewContainer.innerHTML = reviewHtml;
+  }
+
+  // ---------- RESTART ----------
+  function restartTest() {
+    userAnswers = {};
+    studentName = '';
+    studyProgram = '';
+    studentNameInput.value = '';
+    studyProgramInput.value = '';
+    testStartTime = null;
+    testEndTime = null;
+
+    resultScreen.classList.add('hidden');
+    testScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+  }
+
+  // ---------- EVENT LISTENERS ----------
+  nextBtn.addEventListener('click', startTest);
+  submitBtn.addEventListener('click', submitTest);
+  restartBtn.addEventListener('click', restartTest);
+
+  [studentNameInput, studyProgramInput].forEach(inp => {
+    inp.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        nextBtn.click();
+      }
+    });
+  });
+
+  document.querySelectorAll('button').forEach(btn => btn.type = 'button');
+</script>
+</body>
+</html>
